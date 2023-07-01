@@ -1,23 +1,41 @@
 import React from 'react';
-// import { useEffect, useState } from 'react'
 import Footer from '../Base/Footer';
 import Header from '../Base/Header';
+import axios from 'axios';
+import Button from '@mui/material/Button';
+import '../../styles/Mypage.css';
+
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Avatar } from '@mui/material';
 import { Link } from 'react-router-dom';
-import Button from '@mui/material/Button';
-import { Route, Routes } from 'react-router-dom';
-// import { useEffect, useState } from'react'
-import CheckSkill from './CheckSkill';
-import '../../styles/Mypage.css';
-import IdSearch from '../Login/Idsearch';
-import MyPageFeed from './MyPageFeed';
-// import Mypagecomment from './Mypagecomment';
+import { useEffect, useState } from 'react';
 
-const MyPage = () => {
+const Mypagecomment = () => {
   const location = useLocation();
   const member = location.state; // notice 가 mypage로 바뀜
   const navigate = useNavigate();
+  const getId = 1;
+  const [questionViewData, setQuestionViewData] = useState(null);
+
+  useEffect(() => {
+    console.log(`/api/qna/question/view/${getId}`);
+
+    axios({
+      method: 'GET',
+      url: `/api/qna/question/view/${getId}`,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((res) => {
+        console.log(res);
+        setQuestionViewData(res.data.question);
+        console.log(questionViewData);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   const myPageModifyHandler = () => {
     navigate('/mypage/modify', { state: member });
@@ -67,21 +85,22 @@ const MyPage = () => {
           <Link to="/Mypage/MyPageComment/1">
             <Button>내가 쓴 댓글</Button>
           </Link>
-          <Routes>
-            <Route path="/Idsearch" element={<IdSearch />} />
-          </Routes>
         </div>
-        <table>
-          <tr>
-            <th className="contentContainer">
-              <Button href="/Mypage/CheckSkill">스킬 추가</Button>
-            </th>
-          </tr>
-        </table>
+        <div>
+          {questionViewData ? ( // questionViewData가 비어있지 않은 경우에만 렌더링
+            <div>
+              {/* <h1>{questionViewData.title}</h1> */}
+              {/* <h3>{questionViewData.memberId}</h3> */}
+              <h3>{questionViewData.content}</h3>
+            </div>
+          ) : (
+            <div>Loading...</div> // 데이터 로딩 중에는 로딩 표시
+          )}
+        </div>
       </div>
       <Footer />
     </div>
   );
 };
 
-export default MyPage;
+export default Mypagecomment;

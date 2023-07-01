@@ -3,7 +3,7 @@
     padding: 20px;
     margin: 0 auto;
     max-width: 90%;
-    min-height: 600px;
+    min-height: 200px;
 }
 
 body {
@@ -62,6 +62,7 @@ table td, table th {
     cursor: pointer;
     float: right;   
     margin-right: 65px; 
+
 }
 
 .btn-primary-notice:hover {

@@ -1,12 +1,9 @@
 import React from "react";
-import '../../styles/Header.css';
+import "../../styles/Header.css";
 import Nav from "./Nav";
 
-
 const Header = () => {
-    return (
-        <Nav />
-    )
-}
+  return <Nav />;
+};
 
 export default Header;

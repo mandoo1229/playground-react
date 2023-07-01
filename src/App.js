@@ -19,6 +19,10 @@ import { QnaView } from './components/Qna/QnaView';
 
 import MyPage from './components/Mypage/MyPage';
 import MyPageModify from './components/Mypage/MyPageModify';
+import MyPageFeed from './components/Mypage/MyPageFeed';
+import MyPageComment from './components/Mypage/MyPageComment';
+import CheckSkill from'./components/Mypage/CheckSkill';
+
 
 
 
@@ -47,6 +51,10 @@ function App() {
 
           <Route path='/mypage' element={<MyPage />} />
           <Route path='/mypage/modify' element={<MyPageModify />} />
+          <Route path='/mypage/mypagefeed' element={<MyPageFeed />} />
+          <Route path='/mypage/mypagecomment/:id' element={<MyPageComment />} />
+          <Route path='/mypage/CheckSkill' element={<CheckSkill />} />
+          
         </Routes>
       </BrowserRouter>
     </div>
