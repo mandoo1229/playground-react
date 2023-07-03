@@ -1,23 +1,58 @@
-import React from 'react';
-// import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 import Footer from '../Base/Footer';
 import Header from '../Base/Header';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Avatar } from '@mui/material';
-import { Link } from 'react-router-dom';
 import Button from '@mui/material/Button';
-import { Route, Routes } from 'react-router-dom';
-// import { useEffect, useState } from'react'
-import CheckSkill from './CheckSkill';
 import '../../styles/Mypage.css';
-import IdSearch from '../Login/Idsearch';
-import MyPageFeed from './MyPageFeed';
-// import Mypagecomment from './Mypagecomment';
+// import axios from 'axios';
+
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+TabPanel.prototype = {
+  children: PropTypes.node,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+}
 
 const MyPage = () => {
   const location = useLocation();
   const member = location.state; // notice 가 mypage로 바뀜
   const navigate = useNavigate();
+  const [value, setValue] = React.useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
   const myPageModifyHandler = () => {
     navigate('/mypage/modify', { state: member });
@@ -56,29 +91,25 @@ const MyPage = () => {
           </table>
         </div>
       </div>
-      <div className="container" id="preview">
-        <div>
-          <Link to="/Mypage">
-            <Button>내 프로필</Button>
-          </Link>
-          <Link to="/Mypage/MyPageFeed">
-            <Button>내가 쓴 게시글</Button>
-          </Link>
-          <Link to="/Mypage/MyPageComment/1">
-            <Button>내가 쓴 댓글</Button>
-          </Link>
-          <Routes>
-            <Route path="/Idsearch" element={<IdSearch />} />
-          </Routes>
-        </div>
-        <table>
-          <tr>
-            <th className="contentContainer">
-              <Button href="/Mypage/CheckSkill">스킬 추가</Button>
-            </th>
-          </tr>
-        </table>
-      </div>
+
+      <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', marginTop: '30px', marginBottom: '500px' }}>
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+          <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+            <Tab label="프로필" {...a11yProps(0)} />
+            <Tab label="내가 쓴 글" {...a11yProps(1)} />
+            <Tab label="내가 쓴 댓글" {...a11yProps(2)} />
+          </Tabs>
+          <TabPanel value={value} index={0}>
+            <Button href="/Mypage/CheckSkill">스킬 추가</Button>
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            Item Two
+          </TabPanel>
+          <TabPanel value={value} index={2}>
+            Item Two
+          </TabPanel>
+        </Box>
+      </Box>
       <Footer />
     </div>
   );
